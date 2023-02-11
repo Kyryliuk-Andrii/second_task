@@ -11,11 +11,11 @@ class EditTextForm(forms.Form):
     body = forms.CharField(label = '', widget=forms.Textarea(attrs={'rows':'15', 'class':'form-control'}))
 
 class NewTextForm(forms.Form):
-    title =  forms.CharField(label = '', widget=forms.TextInput(attrs={'placeholder':'Введіть назву статті', 'class':'form-control'}))
-    body = forms.CharField(label = '', widget=forms.Textarea(attrs={'placeholder':'Створіть текст статті та натисніть кнопку < Зберегти >', 'rows':'15', 'class':'form-control'}))
+    title =  forms.CharField(label = '', widget=forms.TextInput(attrs={'placeholder':'Enter the title', 'class':'form-control'}))
+    body = forms.CharField(label = '', widget=forms.Textarea(attrs={'placeholder':'Write the text and click save', 'rows':'15', 'class':'form-control'}))
 
 def index(request):
-    page_header = "Всі сторінки Wiki"
+    page_header = "All pages Wiki"
     return render(request, "encyclopedia/index.html", {
         "entries": util.list_entries(),
         "header": page_header
@@ -32,9 +32,9 @@ def search(request):
             if i.lower().find(q.lower()) != -1:
                 search_entries.append(i)
         if len(search_entries) == 0:
-            page_header = "Нічого не знайдено"
+            page_header = "None found"
         else:
-            page_header = "Результати пошуку"
+            page_header = "Search result"
         return render(request, "encyclopedia/index.html", {
             "entries": search_entries,
             "header": page_header
@@ -50,7 +50,7 @@ def search(request):
 def page(request, entry):
     entry_text = util.get_entry(entry)
     if entry_text == None:
-       entry_text = f"Сторінка {entry} не знайдена." 
+       entry_text = f"The page {entry} was not found" 
     else:
        entry_text = markdown(entry_text)
     return render(request, "wiki/page.html", {
@@ -98,7 +98,7 @@ def new(request):
                 for entry in entries:
                     if entry.lower() == title.lower():
                         return render(request, "wiki/page.html", {
-                        "entry_text": f"Сторінка {entry} вже існує.",
+                        "entry_text": f"The page {entry} already exists",
                         "entry_name": entry
                         })
             util.save_entry(title, body)

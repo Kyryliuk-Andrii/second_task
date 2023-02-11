@@ -5,12 +5,12 @@
 {% endblock %}
 
 {% block body %}
-<h1>Редагування сторінки "{{ form.title.value }}"</h1>
+<h1>Edit page "{{ form.title.value }}"</h1>
 <form action="{% url 'encyclopedia:save' %}" method="post">
     {% csrf_token %} 
-    <div class="br_edit">{{ form.body }} </div>
+    <div>{{ form.body }} </div>
     <input type="hidden" name = "title" value="{{ form.title.value }}">
-    <input class="btn btn-outline-secondary" type="submit" value="Зберегти">
+    <input class="btn btn-light" type="submit" value="Save">
     {% if edit %}
         <input type="hidden" name = "edit" value="True">
     {% endif %}

@@ -1,15 +1,15 @@
 {% extends "encyclopedia/layout.html" %}
 
 {% block title %}
-    Створення нової статті
+    Create new article
 {% endblock %}
 
 {% block body %}
-<h1>Створення нової статті</h1>
+<h1>Create new article</h1>
     <form action="{%url 'encyclopedia:new'%}" method="post">
         {% csrf_token %} 
-        <div class="br_edit">{{ form.as_p }}</div> 
-        <input class="btn btn-outline-secondary" type="submit" value="Зберегти">
+        <div>{{ form.as_p }}</div> 
+        <input class="btn btn-light" type="submit" value="Save">
         {% if edit %}
         <input type="hidden" name = "edit" value="True">
         {% endif %}

@@ -3,6 +3,7 @@ import os
 from posixpath import splitext
 from django.core.files.base import ContentFile
 from django.core.files.storage import default_storage
+from django.core.files import File
 
 
 def list_entries():
@@ -21,9 +22,9 @@ def save_entry(title, content):
     it is replaced.
     """
     filename = f"entries/{title}.md"
-    if default_storage.exists(filename):
-        default_storage.delete(filename)
-    default_storage.save(filename, ContentFile(content))
+    with open(filename, "w", encoding="utf-8") as f:
+        file = File(f)
+        file.write(content)
 
 
 def get_entry(title):
@@ -40,7 +41,8 @@ def get_entry(title):
                 print(filename)
                 try:
                     f = default_storage.open(f"entries/{title}.md")
-                    return f.read().decode("utf-8")
+                    return f.read().decode("Windows-1251")#"utf-8"
+
                 except FileNotFoundError:
                     return None
         return None
